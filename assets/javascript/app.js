@@ -28,7 +28,7 @@ $('document').ready(function () {
     function animalOptionClick(text) {
         $('.results').empty();
         currentAnimal = text;
-        ajaxCall = $.get("http://api.giphy.com/v1/gifs/search?q=" + currentAnimal + "&api_key=" + APIkey + "&limit=" + limit);
+        ajaxCall = $.get("https://api.giphy.com/v1/gifs/search?q=" + currentAnimal + "&api_key=" + APIkey + "&limit=" + limit);
         ajaxCall.done(function (data) {
             data.data.forEach(function (element, index) {
                 let newCard = $('<div>');
