@@ -15,10 +15,7 @@ $('document').ready(function () {
 
     function cardClick(image, element) {
         if ($(image).attr('src') === element.images.fixed_height_still.url) {
-            $(image).attr('src', element.images.fixed_height_downsampled.url);
-            $(image).attr('size', element.images.fixed_height_downsampled.size);
-            $(image).attr('webp', element.images.fixed_height_downsampled.webp);
-            $(image).attr('webp_size', element.images.fixed_height_downsampled.webp_size);
+            $(image).attr('src', element.images.fixed_height.url);
         }
         else {
             $(image).attr('src', element.images.fixed_height_still.url);
@@ -38,6 +35,11 @@ $('document').ready(function () {
                 newImage.attr('src', element.images.fixed_height_still.url);
                 newImage.attr('width', element.images.fixed_height_still.width);
                 newImage.attr('height', element.images.fixed_height_still.height);
+                newImage.attr('size', element.images.fixed_height.size);
+                newImage.attr('mp4', element.images.fixed_height.mp4);
+                newImage.attr('mp4_size', element.images.fixed_height.mp4_size);
+                newImage.attr('webp', element.images.fixed_height.webp);
+                newImage.attr('webp_size', element.images.fixed_height.webp_size);
                 newCard.attr('class', 'card animal-card');
                 newCard.attr('index', index);
                 newCard.click(function () { cardClick(newImage, element) });

@@ -12,3 +12,27 @@
     margin: 2px;
     border:none;
 }
+
+.btn-array,
+.add-animal {
+    text-align: center;
+}
+
+#input-field,
+#submitBtn {
+    min-width: 100%;
+}
+
+#submitBtn {
+    margin-top: 2px;
+}
+
+@media (max-width: 768px) {
+    .col-results {
+        text-align:center;
+        align-content: center;
+        align-items: center;
+        justify-content: center;
+        justify-items: center;
+    }
+}
