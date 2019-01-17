@@ -8,21 +8,26 @@ $('document').ready(function () {
     ]
 
     let currentAnimal;
+    let ajaxCall;
 
     addButtonArray(animals, $('.btn-array'), 'animal-option btn btn-primary');
 
-    $(document).on('click','.animal-pic',function() {
-        console.log(currentAnimal);
-    })
+
+    function cardClick(image,element) {
+        $(image).attr('src',element.images.fixed_height_downsampled.url);
+        $(image).attr('size',element.images.fixed_height_downsampled.size);
+        $(image).attr('webp',element.images.fixed_height_downsampled.webp);
+        $(image).attr('webp_size',element.images.fixed_height_downsampled.webp_size);
+        // console.log(currentAnimal,indexCheck);       
+    }
 
     $('.animal-option').on('click', function () {
         $('.results').empty();
-        let selectedAnimal = $(this).text();
-        currentAnimal = selectedAnimal;
-        let ajaxCall = $.get("http://api.giphy.com/v1/gifs/search?q=" + selectedAnimal + "&api_key=" + APIkey + "&limit=" + limit);
+        currentAnimal = $(this).text();
+        ajaxCall = $.get("http://api.giphy.com/v1/gifs/search?q=" + currentAnimal + "&api_key=" + APIkey + "&limit=" + limit);
         ajaxCall.done(function(data) { 
             // console.log("success got data", data, data.data.length); 
-            data.data.forEach(function (element) {
+            data.data.forEach(function (element,index) {
                 let newCard = $('<span>');
                 let newCardBody = $('<div>');
                 let newImage = $('<img>');
@@ -31,6 +36,8 @@ $('document').ready(function () {
                 newImage.attr('width',element.images.fixed_height_still.width);
                 newImage.attr('height',element.images.fixed_height_still.height);
                 newCard.attr('class','card animal-card');
+                newCard.attr('index',index);
+                newCard.click(function() {cardClick(newImage,element)});
                 newCardBody.attr('class','card-body');
                 newCardBody.append('Rating: ' + element.rating);
                 newCard.append(newCardBody);
