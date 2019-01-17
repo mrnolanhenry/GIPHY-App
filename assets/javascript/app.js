@@ -9,30 +9,39 @@ $('document').ready(function () {
 
     let currentAnimal;
     let ajaxCall;
+    let offset = 0;
+    let totalCount = 0;
+
+    $('#nextBtn').hide();
+    $('#prevBtn').hide();
 
     addButtonArray(animals, $('.btn-array'), 'animal-option btn btn-primary');
 
 
-    function cardClick(image, element) {
-        if ($(image).attr('src') === element.images.fixed_height_still.url) {
-            $(image).attr('src', element.images.fixed_height.url);
+    function toggleAnimate(image) {
+        if ($(image).attr('src') === $(image).attr('stillUrl')) {
+            $(image).attr('src', $(image).attr('gifUrl'));
         }
         else {
-            $(image).attr('src', element.images.fixed_height_still.url);
+            $(image).attr('src', $(image).attr('stillUrl'));
         }
     }
 
     function animalOptionClick(text) {
         $('.results').empty();
         currentAnimal = text;
-        ajaxCall = $.get("https://api.giphy.com/v1/gifs/search?q=" + currentAnimal + "&api_key=" + APIkey + "&limit=" + limit);
+        ajaxCall = $.get("https://api.giphy.com/v1/gifs/search?q=" + currentAnimal + "&api_key=" + APIkey + "&limit=" + limit + "&offset=" + offset);
         ajaxCall.done(function (data) {
+            totalCount = data.pagination.total_count;
+
             data.data.forEach(function (element, index) {
                 let newCard = $('<div>');
                 let newCardBody = $('<div>');
                 let newImage = $('<img>');
                 newImage.attr('class', 'animal-pic');
-                newImage.attr('src', element.images.fixed_height_still.url);
+                newImage.attr('stillUrl', element.images.fixed_height_still.url);
+                newImage.attr('src', newImage.attr('stillUrl'));
+                newImage.attr('gifUrl', element.images.fixed_height.url)
                 newImage.attr('width', element.images.fixed_height_still.width);
                 newImage.attr('height', element.images.fixed_height_still.height);
                 newImage.attr('size', element.images.fixed_height.size);
@@ -42,7 +51,7 @@ $('document').ready(function () {
                 newImage.attr('webp_size', element.images.fixed_height.webp_size);
                 newCard.attr('class', 'card animal-card');
                 newCard.attr('index', index);
-                newCard.click(function () { cardClick(newImage, element) });
+                newImage.click(function () { toggleAnimate(newImage) });
                 newCardBody.attr('class', 'card-body card-rating');
                 newCardBody.append('Rating: ' + element.rating);
                 newCard.append(newCardBody);
@@ -50,14 +59,38 @@ $('document').ready(function () {
                 $('.results').append(newCard)
             });
         });
+        $('#nextBtn:hidden').show();
     };
+
 
 
     $(document).on('click', '#submitBtn', function () {
         event.preventDefault();
-        animals.push($('#input-field').val());
+        let inputVal = $('#input-field').val();
+        if (inputVal !== "") {
+            animals.push(inputVal);
+        }
         addButtonArray(animals, $('.btn-array'), 'animal-option btn btn-primary');
     });
+
+    $(document).on('click', '#nextBtn', function () {
+        offset = Math.min(totalCount - limit, offset + limit);
+        animalOptionClick(currentAnimal);
+        $('#prevBtn:hidden').show();
+        if (offset === totalCount - limit) {
+            $('#nextBtn').hide();
+        }
+    });
+
+    $(document).on('click', '#prevBtn', function () {
+        offset = Math.max(0, offset - limit);
+        animalOptionClick(currentAnimal);
+        $('#nextBtn:hidden').show();
+        if (offset === 0) {
+            $('#prevBtn').hide();
+        }
+    });
+
 
     function addButtonArray(array, div, className) {
         div.empty();
@@ -71,7 +104,7 @@ $('document').ready(function () {
         let btn = $("<button>");
         btn.text(text);
         btn.attr("class", className);
-        btn.click(function() {animalOptionClick(text)})
+        btn.click(function () { animalOptionClick(text) })
         return btn;
     }
 

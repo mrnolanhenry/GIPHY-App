@@ -14,17 +14,22 @@
 }
 
 .btn-array,
-.add-animal {
+.btn-menu {
     text-align: center;
 }
 
 #input-field,
 #submitBtn {
-    min-width: 100%;
+    width: 100%;
 }
 
-#submitBtn {
+#submitBtn,
+.pgBtn {
     margin-top: 2px;
+}
+
+.pgBtn {
+    width: 48%;
 }
 
 @media (max-width: 768px) {
