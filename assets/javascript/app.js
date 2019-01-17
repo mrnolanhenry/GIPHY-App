@@ -86,7 +86,7 @@ $('document').ready(function () {
     };
 
     function goToFavoritesClick() {
-        $('.favorites:hidden').show();
+        $('.favorites').show();
         $('.results').hide();
     }
 
@@ -96,6 +96,7 @@ $('document').ready(function () {
         if (inputVal !== "") {
             animals.push(inputVal);
         }
+        goToFavoritesBtn = createGoToFavoritesButton('♥','btn btn-danger go-to-favorites');
         addButtonArray(animals, $('.btn-array'), 'animal-option btn btn-primary');
     });
 
