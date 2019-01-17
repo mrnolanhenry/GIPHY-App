@@ -1,0 +1,10 @@
+.row-bordered,
+.col-bordered {
+    border: solid;
+    border-color: black;
+    border-width: 1px;
+}
+
+.animal-option {
+    margin: 2px;
+}
