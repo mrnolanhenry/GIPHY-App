@@ -14,8 +14,22 @@ $('document').ready(function () {
 
     $('#nextBtn').hide();
     $('#prevBtn').hide();
+    $('.favorites').hide();
+
+    let goToFavoritesBtn = createGoToFavoritesButton('♥','btn btn-danger go-to-favorites');
 
     addButtonArray(animals, $('.btn-array'), 'animal-option btn btn-primary');
+
+    function toggleFavorite(button, card) {
+        if ($(button).text() === "♥") {
+            $(button).text("✘");
+            $('.favorites').append($(card));
+        }
+        else {
+            $(button).text("♥");
+            $(card).remove();
+        }
+    }
 
     function toggleAnimate(image) {
         if ($(image).attr('src') === $(image).attr('stillUrl')) {
@@ -27,7 +41,9 @@ $('document').ready(function () {
     }
 
     function animalOptionClick(text) {
+        $('.favorites').hide();
         $('.results').empty();
+        $('.results').show();
         currentAnimal = text;
         ajaxCall = $.get("https://api.giphy.com/v1/gifs/search?q=" + currentAnimal + "&api_key=" + APIkey + "&limit=" + limit + "&offset=" + offset);
         ajaxCall.done(function (data) {
@@ -37,6 +53,7 @@ $('document').ready(function () {
                 let newCard = $('<div>');
                 let newCardBody = $('<div>');
                 let newImage = $('<img>');
+                let newFav = $('<button>');
 
                 newImage.attr('class', 'animal-pic');
                 newImage.attr('stillUrl', element.images.fixed_height_still.url);
@@ -51,8 +68,13 @@ $('document').ready(function () {
                 newImage.attr('webp_size', element.images.fixed_height.webp_size);
                 newImage.click(function () { toggleAnimate(newImage) });
                 
+                newFav.text('♥');
+                newFav.attr('class','btn-link btn-sm favBtn')
+                newFav.click(function () {toggleFavorite(newFav,newCard)});
+
                 newCardBody.attr('class', 'card-body card-rating');
-                newCardBody.append('Rating: ' + element.rating + '<br/>');
+                newCardBody.append('Rating: ' + element.rating + ' ');
+                newCardBody.append(newFav);
                 
                 newCard.attr('class', 'card animal-card');
                 newCard.append(newCardBody);
@@ -63,7 +85,10 @@ $('document').ready(function () {
         $('#nextBtn:hidden').show();
     };
 
-
+    function goToFavoritesClick() {
+        $('.favorites:hidden').show();
+        $('.results').hide();
+    }
 
     $(document).on('click', '#submitBtn', function () {
         event.preventDefault();
@@ -95,6 +120,7 @@ $('document').ready(function () {
 
     function addButtonArray(array, div, className) {
         div.empty();
+        div.prepend(goToFavoritesBtn);
         array.forEach(function (element) {
             let btn = createAnimalOptionButton(element, className);
             div.append(btn);
@@ -106,6 +132,14 @@ $('document').ready(function () {
         btn.text(text);
         btn.attr("class", className);
         btn.click(function () { animalOptionClick(text) })
+        return btn;
+    }
+
+    function createGoToFavoritesButton(text,className) {
+        let btn = $('<button>');
+        btn.text(text);
+        btn.attr('class',className);
+        btn.click(function () { goToFavoritesClick() })
         return btn;
     }
 

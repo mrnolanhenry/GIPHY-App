@@ -1,4 +1,4 @@
-.animal-option {
+.animal-option, .go-to-favorites {
     margin: 2px;
     padding: 0px 5px 0px 5px;
 }
@@ -6,11 +6,15 @@
 .card-rating {
     font-weight: bold;
     padding: 1px;
+    max-height:24px;
+    z-index:2;
 }
 
 .animal-card {
     margin: 2px;
     border:none;
+    /* display:flex;
+    flex-basis: auto; */
 }
 
 .btn-array,
@@ -30,6 +34,26 @@
 
 .pgBtn {
     width: 48%;
+}
+
+.favBtn {
+position: relative;
+background-color:rgba(255,255,255,.8);
+border-width: 0px !important;
+border-radius: 0rem 0rem !important;
+font-weight:bold;
+padding-left:0rem !important;
+padding-right:0rem !important;
+width:100%;
+bottom: -169.2px;
+float: left;
+z-index: 2;
+}
+
+.favBtn:hover, 
+.favBtn:focus {
+    text-decoration:none;
+    background-color:rgba(255,255,255,1);
 }
 
 @media (max-width: 768px) {
