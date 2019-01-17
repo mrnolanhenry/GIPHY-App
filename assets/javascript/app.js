@@ -1,17 +1,24 @@
 $('document').ready(function () {
 
     const APIkey = 'jcvWf6Wh12j6NKDPQw8Vyfb6x8GC7DiL';
-    const limit = 5;
+    const limit = 10;
 
     let animals = [
         "Alligator", "Baboon", "Bat", "Bear", "Butterfly", "Camel", "Cat", "Cheetah", "Chicken", "Crab", "Crocodile", "Dog", "Dolphin", "Donkey", "Eagle", "Elephant", "Fish", "Flamingo", "Fox", "Frog", "Giraffe", "Goat", "Gorilla", "Hawk", "Hedgehog", "Horse", "Jellyfish", "Kangaroo", "Koala", "Lemur", "Lion", "Llama", "Manatee", "Monkey", "Moose", "Mouse", "Narwhal", "Octopus", "Ostrich", "Otter", "Owl", "Parrot", "Penguin", "Pig", "Porcupine", "Rabbit", "Raccoon", "Rhinoceros", "Shark", "Sheep", "Skunk", "Snake", "Tiger", "Turtle", "Whale", "Wolf", "Zebra"
     ]
 
+    let currentAnimal;
+
     addButtonArray(animals, $('.btn-array'), 'animal-option btn btn-primary');
+
+    $(document).on('click','.animal-pic',function() {
+        console.log(currentAnimal);
+    })
 
     $('.animal-option').on('click', function () {
         $('.results').empty();
         let selectedAnimal = $(this).text();
+        currentAnimal = selectedAnimal;
         let ajaxCall = $.get("http://api.giphy.com/v1/gifs/search?q=" + selectedAnimal + "&api_key=" + APIkey + "&limit=" + limit);
         ajaxCall.done(function(data) { 
             // console.log("success got data", data, data.data.length); 
