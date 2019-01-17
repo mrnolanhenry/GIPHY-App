@@ -17,7 +17,6 @@ $('document').ready(function () {
 
     addButtonArray(animals, $('.btn-array'), 'animal-option btn btn-primary');
 
-
     function toggleAnimate(image) {
         if ($(image).attr('src') === $(image).attr('stillUrl')) {
             $(image).attr('src', $(image).attr('gifUrl'));
@@ -34,10 +33,11 @@ $('document').ready(function () {
         ajaxCall.done(function (data) {
             totalCount = data.pagination.total_count;
 
-            data.data.forEach(function (element, index) {
+            data.data.forEach(function (element) {
                 let newCard = $('<div>');
                 let newCardBody = $('<div>');
                 let newImage = $('<img>');
+
                 newImage.attr('class', 'animal-pic');
                 newImage.attr('stillUrl', element.images.fixed_height_still.url);
                 newImage.attr('src', newImage.attr('stillUrl'));
@@ -49,11 +49,12 @@ $('document').ready(function () {
                 newImage.attr('mp4_size', element.images.fixed_height.mp4_size);
                 newImage.attr('webp', element.images.fixed_height.webp);
                 newImage.attr('webp_size', element.images.fixed_height.webp_size);
-                newCard.attr('class', 'card animal-card');
-                newCard.attr('index', index);
                 newImage.click(function () { toggleAnimate(newImage) });
+                
                 newCardBody.attr('class', 'card-body card-rating');
-                newCardBody.append('Rating: ' + element.rating);
+                newCardBody.append('Rating: ' + element.rating + '<br/>');
+                
+                newCard.attr('class', 'card animal-card');
                 newCard.append(newCardBody);
                 newCard.append(newImage);
                 $('.results').append(newCard)
@@ -95,12 +96,12 @@ $('document').ready(function () {
     function addButtonArray(array, div, className) {
         div.empty();
         array.forEach(function (element) {
-            let btn = createButton(element, className);
+            let btn = createAnimalOptionButton(element, className);
             div.append(btn);
         });
     }
 
-    function createButton(text, className) {
+    function createAnimalOptionButton(text, className) {
         let btn = $("<button>");
         btn.text(text);
         btn.attr("class", className);
