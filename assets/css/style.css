@@ -1,10 +1,14 @@
-.row-bordered,
-.col-bordered {
-    border: solid;
-    border-color: black;
-    border-width: 1px;
-}
-
 .animal-option {
     margin: 2px;
+    padding: 0px 5px 0px 5px;
+}
+
+.card-rating {
+    font-weight: bold;
+    padding: 1px;
+}
+
+.animal-card {
+    margin: 2px;
+    border:none;
 }
