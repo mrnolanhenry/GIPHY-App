@@ -19,7 +19,8 @@ $('document').ready(function () {
     $('.favorites').hide();
 
     // create button that will display favorited gifs
-    let goToFavoritesBtn = createGoToFavoritesButton('♥', 'btn btn-danger go-to-favorites');
+    let goToFavoritesBtn = createButton('♥', 'btn btn-danger go-to-favorites')
+    goToFavoritesBtn.click(function () { goToFavoritesClick() })
 
     addButtonArray(animals, $('.btn-array'), 'animal-option btn btn-primary');
 
@@ -55,7 +56,6 @@ $('document').ready(function () {
         // If clicking on a new animal, return to the first page of results
         if (currentAnimal !== text) {
             offset = 0;
-            console.log(offset);
         }
 
         currentAnimal = text;
@@ -112,7 +112,6 @@ $('document').ready(function () {
         $('.results').hide();
     }
 
-
     $(document).on('click', '#submitBtn', function () {
         // prevent page from reloading by default when hitting submit
         event.preventDefault();
@@ -123,7 +122,8 @@ $('document').ready(function () {
             animals.push(inputVal);
         }
         // re-render buttons at the top for favorites and each animal
-        goToFavoritesBtn = createGoToFavoritesButton('♥', 'btn btn-danger go-to-favorites');
+        goToFavoritesBtn = createButton('♥', 'btn btn-danger go-to-favorites')
+        goToFavoritesBtn.click(function () { goToFavoritesClick() })
         addButtonArray(animals, $('.btn-array'), 'animal-option btn btn-primary');
     });
 
@@ -162,24 +162,16 @@ $('document').ready(function () {
         div.empty();
         div.prepend(goToFavoritesBtn);
         array.forEach(function (element) {
-            let btn = createAnimalOptionButton(element, className);
+            let btn = createButton(element, className);
+            btn.click(function () { animalOptionClick(element) })
             div.append(btn);
         });
     }
 
-    function createAnimalOptionButton(text, className) {
-        let btn = $("<button>");
-        btn.text(text);
-        btn.attr("class", className);
-        btn.click(function () { animalOptionClick(text) })
-        return btn;
-    }
-
-    function createGoToFavoritesButton(text, className) {
+    function createButton(text, className) {
         let btn = $('<button>');
         btn.text(text);
         btn.attr('class', className);
-        btn.click(function () { goToFavoritesClick() })
         return btn;
     }
 });
