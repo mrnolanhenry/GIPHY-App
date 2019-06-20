@@ -1,5 +1,5 @@
 # GIPHY-App
-Simple application to search for and favorite animal GIFs
+Simple application to search for, play, pause, and favorite animal GIFs
 
 ## [Deployed Here](https://enfenry.github.io/GIPHY-App/)
 
